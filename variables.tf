@@ -16,22 +16,17 @@ EOT
     name                                         = string
     description                                  = optional(string)
     self_contained_interactive_authoring_enabled = optional(bool)
-    rbac_authorization = optional(object({
+    rbac_authorization = optional(list(object({
       resource_id = string
-    }))
+    })))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.data_factory_integration_runtime_self_hosteds : (
-        can(regex("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$", v.name))
-      )
-    ])
-    error_message = "Invalid name for Self-Hosted Integration Runtime: minimum 3 characters, must start and end with a number or a letter, may only consist of letters, numbers and dashes and no consecutive dashes."
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_data_factory_integration_runtime_self_hosted's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
   # Review, translate into a real validation{} block above, and delete once confirmed.
+  # path: name
+  #   condition: can(regex("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$", value))
+  #   message:   Invalid name for Self-Hosted Integration Runtime: minimum 3 characters, must start and end with a number or a letter, may only consist of letters, numbers and dashes and no consecutive dashes.
   # path: data_factory_id
   #   source:    [from factories.ValidateFactoryID] !ok
   # path: data_factory_id
