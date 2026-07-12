@@ -1,3 +1,7 @@
+output "data_factory_integration_runtime_self_hosteds_id" {
+  description = "Map of id values across all data_factory_integration_runtime_self_hosteds, keyed the same as var.data_factory_integration_runtime_self_hosteds"
+  value       = { for k, v in azurerm_data_factory_integration_runtime_self_hosted.data_factory_integration_runtime_self_hosteds : k => v.id }
+}
 output "data_factory_integration_runtime_self_hosteds_data_factory_id" {
   description = "Map of data_factory_id values across all data_factory_integration_runtime_self_hosteds, keyed the same as var.data_factory_integration_runtime_self_hosteds"
   value       = { for k, v in azurerm_data_factory_integration_runtime_self_hosted.data_factory_integration_runtime_self_hosteds : k => v.data_factory_id }
